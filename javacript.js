@@ -1,3 +1,5 @@
+const TOTAL_ROUNDS = 5;
+
 let getComputerChoice = () => Math.floor(Math.random() * 3);
 
 let playerSelection = () => {
@@ -36,6 +38,28 @@ let checkWinner = (playerSelection, computerSelection) => {
             return (computerSelection === "rock") ? -1 : 1;
         default: 
             console.log("Please enter 'rock', 'paper', or 'scissors'");
-            return 0;
+            return checkWinner(playerSelection(), computerSelection());
     }
 };
+
+let game = () => {
+    let computerWins = 0;
+    let playerWins = 0;
+
+    for (let i = 0; i < TOTAL_ROUNDS; i++) {
+        switch (checkWinner(playerSelection(), computerSelection())) {
+            case -1:
+                computerWins++;
+                break;
+            case 1:
+                playerWins++;
+                break;
+        }
+    }
+    console.log("Computer's wins: " + computerWins);
+    console.log("Your wins: " + playerWins);
+
+    return (computerWins === playerWins) ? "It's a tie!" : (computerWins > playerWins) ? "You Lose!" : "You Win!"
+};
+
+console.log(game());
