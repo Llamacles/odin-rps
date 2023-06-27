@@ -1,5 +1,16 @@
 const TOTAL_ROUNDS = 5;
 
+let createText = (str) => {
+    const display = document.querySelector('#display');
+
+    const content = document.createElement('p');
+    content.classList.add('display-result');
+    content.textContent = str;
+
+    display.appendChild(content);
+};
+
+/*HANDLE PLAYER SELECTION*/
 const btn = document.querySelectorAll('button');
 
 btn.forEach((button) => {
@@ -8,12 +19,8 @@ btn.forEach((button) => {
     });
 });
 
+/*HANDLE COMPUTER RNG SELECTION*/
 let getComputerChoice = () => Math.floor(Math.random() * 3);
-
-let playerSelection = () => {
-    let input = prompt("Rock Paper Scissors!\nWhat is your selection?");
-    return input.toLowerCase();
-};
 
 let computerSelection = () => {
     switch (getComputerChoice()) {
@@ -27,25 +34,26 @@ let computerSelection = () => {
 };
 
 let playRound = (playerSelection, computerSelection) => {
-    console.log("You chose '" + playerSelection + "' and the computer chose '" + computerSelection + "'.") 
+
+    createText(`You chose ${playerSelection} and the computer chose ${computerSelection}.`);
     
     if (playerSelection === computerSelection) {
-        console.log("It's a tie! You both chose " + playerSelection);
+        createText(`It's a tie! You both chose ${playerSelection}`);
         return 0;
     }
 
     switch (playerSelection) {
         case "rock":
-            (computerSelection === "paper") ? console.log("You lose! Paper beats rock") : console.log("You win! Rock beats scissors");
+            (computerSelection === "paper") ? createText("You lose! Paper beats rock") : createText("You win! Rock beats scissors");
             return (computerSelection === "paper") ? -1 : 1;
         case "paper":
-            (computerSelection === "scissors") ? console.log("You lose! Scissors beats paper") : console.log("You win! Paper beats rock");
+            (computerSelection === "scissors") ? createText("You lose! Scissors beats paper") : createText("You win! Paper beats rock");
             return (computerSelection === "scissors") ? -1 : 1;
         case "scissors":
-            (computerSelection === "rock") ? console.log("You lose! Rock beats scissors") : console.log("You win! Scissors beats paper");
+            (computerSelection === "rock") ? createText("You lose! Rock beats scissors") : createText("You win! Scissors beats paper");
             return (computerSelection === "rock") ? -1 : 1;
         default: 
-            console.log("Please enter 'rock', 'paper', or 'scissors'");
+            createText("Please enter 'rock', 'paper', or 'scissors'");
             return playRound(playerSelection(), computerSelection());
     }
 };
@@ -64,8 +72,8 @@ let playRound = (playerSelection, computerSelection) => {
 //                 break;
 //         }
 //     }
-//     console.log("Computer's wins: " + computerWins);
-//     console.log("Your wins: " + playerWins);
+//     createText("Computer's wins: " + computerWins);
+//     createText("Your wins: " + playerWins);
 
 //     return (computerWins === playerWins) ? "It's a tie!" : (computerWins > playerWins) ? "You Lose!" : "You Win!"
 // };
