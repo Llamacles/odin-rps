@@ -1,5 +1,13 @@
 const TOTAL_ROUNDS = 5;
 
+const btn = document.querySelectorAll('button');
+
+btn.forEach((button) => {
+    button.addEventListener('click', () => {
+        console.log(button.id);
+    });
+});
+
 let getComputerChoice = () => Math.floor(Math.random() * 3);
 
 let playerSelection = () => {
@@ -18,7 +26,7 @@ let computerSelection = () => {
     }
 };
 
-let checkWinner = (playerSelection, computerSelection) => {
+let playRound = (playerSelection, computerSelection) => {
     console.log("You chose '" + playerSelection + "' and the computer chose '" + computerSelection + "'.") 
     
     if (playerSelection === computerSelection) {
@@ -38,28 +46,26 @@ let checkWinner = (playerSelection, computerSelection) => {
             return (computerSelection === "rock") ? -1 : 1;
         default: 
             console.log("Please enter 'rock', 'paper', or 'scissors'");
-            return checkWinner(playerSelection(), computerSelection());
+            return playRound(playerSelection(), computerSelection());
     }
 };
 
-let game = () => {
-    let computerWins = 0;
-    let playerWins = 0;
+// let game = () => {
+//     let computerWins = 0;
+//     let playerWins = 0;
 
-    for (let i = 0; i < TOTAL_ROUNDS; i++) {
-        switch (checkWinner(playerSelection(), computerSelection())) {
-            case -1:
-                computerWins++;
-                break;
-            case 1:
-                playerWins++;
-                break;
-        }
-    }
-    console.log("Computer's wins: " + computerWins);
-    console.log("Your wins: " + playerWins);
+//     for (let i = 0; i < TOTAL_ROUNDS; i++) {
+//         switch (playRound(playerSelection(), computerSelection())) {
+//             case -1:
+//                 computerWins++;
+//                 break;
+//             case 1:
+//                 playerWins++;
+//                 break;
+//         }
+//     }
+//     console.log("Computer's wins: " + computerWins);
+//     console.log("Your wins: " + playerWins);
 
-    return (computerWins === playerWins) ? "It's a tie!" : (computerWins > playerWins) ? "You Lose!" : "You Win!"
-};
-
-console.log(game());
+//     return (computerWins === playerWins) ? "It's a tie!" : (computerWins > playerWins) ? "You Lose!" : "You Win!"
+// };
