@@ -4,7 +4,7 @@ const btn = document.querySelectorAll('button');
 
 btn.forEach((button) => {
     button.addEventListener('click', () => {
-        console.log(button.id);
+        playRound(button.id, computerSelection());
     });
 });
 
