@@ -21,6 +21,15 @@ let removeText = () => {
     }
 };
 
+let removeButtons = () => {
+    const section = document.querySelector('#game-buttons');
+    const btn = document.querySelectorAll('button');
+
+    btn.forEach((button) => {
+        section.removeChild(button);
+    });
+};
+
 let countGames = () => {
     const num = document.querySelector('.game-number');
 
@@ -73,8 +82,10 @@ let playRound = (playerSelection, computerSelection) => {
         }
     }
     let gameNum = countGames();
-    if (gameNum === 5)
+    if (gameNum === 5) {
         createText("The game is over!");
+        removeButtons();
+    }
 };
 
 // let game = () => {
