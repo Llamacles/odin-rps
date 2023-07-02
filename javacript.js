@@ -12,9 +12,9 @@ let removeText = () => {
     const section = document.querySelector('#display');
 
     if (section.childNodes.length > 0) {
-        const text = document.querySelectorAll('p');
+        const text = document.querySelectorAll('.display-result');
         text.forEach((p) => {
-            section.removeChild(p);
+            p.remove();
         });
     }
 };
@@ -36,21 +36,21 @@ let addResetButton = () => {
     section.insertBefore(btn, section.firstChild);
 
     btn.addEventListener('click', () => {
-        const num = document.querySelector('.game-number');
+        const num = document.querySelector('#game-number');
         num.textContent = `0`;
 
         const buttons = document.querySelectorAll('button');
         buttons.forEach((button) => {
             button.removeAttribute("hidden"); 
         });
-
+        removeText()
         section.removeChild(btn);
     });
 };
 
 
 let countGames = () => {
-    const num = document.querySelector('.game-number');
+    const num = document.querySelector('#game-number');
 
     let count = Number(num.textContent) + 1;
     num.textContent = `${count.toString()}`;
@@ -102,7 +102,12 @@ let playRound = (playerSelection, computerSelection) => {
     }
     let gameNum = countGames();
     if (gameNum === 5) {
-        createText("The game is over!");
+        //selectWinner();
         hideButtons();
     }
 };
+
+//CREATE A SYSTEM THAT SELECTS A WINNER AT THE END OF THE 5 ROUNDS
+// let selectWinner = () => {
+    
+// };
