@@ -30,6 +30,8 @@ let hideButtons = () => {
 
 let addResetButton = () => {
     const section = document.querySelector('#game-buttons');
+    const playerWins = document.querySelector('#player-wins');
+    const computerWins = document.querySelector('#computer-wins');
 
     const btn = document.createElement('button');
     btn.textContent = "Play again?";
@@ -38,6 +40,8 @@ let addResetButton = () => {
     btn.addEventListener('click', () => {
         const num = document.querySelector('#game-number');
         num.textContent = `0`;
+        playerWins.textContent = `0`;
+        computerWins.textContent = `0`;
 
         const buttons = document.querySelectorAll('button');
         buttons.forEach((button) => {
@@ -82,6 +86,9 @@ let computerSelection = () => {
 
 /*MAIN RPS FUNCTION*/
 let playRound = (playerSelection, computerSelection) => {
+    const playerWins = document.querySelector('#player-wins');
+    const computerWins = document.querySelector('#computer-wins');
+
     removeText();
     createText(`You chose ${playerSelection} and the computer chose ${computerSelection}.`);
     
@@ -90,24 +97,46 @@ let playRound = (playerSelection, computerSelection) => {
     else {
         switch (playerSelection) {
             case "rock":
-                (computerSelection === "paper") ? createText("You lose! Paper beats rock") : createText("You win! Rock beats scissors");
+                if (computerSelection === "paper") {
+                    createText("You lose! Paper beats rock");
+                    computerWins.textContent = `${Number(computerWins.textContent) + 1}`;
+                } else { 
+                    createText("You win! Rock beats scissors");
+                    playerWins.textContent = `${Number(playerWins.textContent) + 1}`;
+                }
                 break;
             case "paper":
-                (computerSelection === "scissors") ? createText("You lose! Scissors beats paper") : createText("You win! Paper beats rock");
+                if (computerSelection === "scissors") {
+                    createText("You lose! Scissors beats paper");
+                    computerWins.textContent = `${Number(computerWins.textContent) + 1}`; 
+                } else {
+                    createText("You win! Paper beats rock");
+                    playerWins.textContent = `${Number(playerWins.textContent) + 1}`;
+                }
                 break;
             case "scissors":
-                (computerSelection === "rock") ? createText("You lose! Rock beats scissors") : createText("You win! Scissors beats paper");
+                if (computerSelection === "rock") {
+                    createText("You lose! Rock beats scissors")
+                    computerWins.textContent = `${Number(computerWins.textContent) + 1}`;
+                } else {
+                    createText("You win! Scissors beats paper");
+                    playerWins.textContent = `${Number(playerWins.textContent) + 1}`;
+                }
                 break;
         }
     }
     let gameNum = countGames();
     if (gameNum === 5) {
-        //selectWinner();
         hideButtons();
+        if (Number(playerWins.textContent) === Number(computerWins.textContent)) {
+            createText("It's a tie!");
+            return 0;
+        }
+
+        if (Number(playerWins.textContent) > Number(computerWins.textContent)){ 
+            createText("You win!");
+        } else {
+            createText("You lose!");
+        }
     }
 };
-
-//CREATE A SYSTEM THAT SELECTS A WINNER AT THE END OF THE 5 ROUNDS
-// let selectWinner = () => {
-    
-// };
