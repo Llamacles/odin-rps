@@ -10,6 +10,17 @@ let createText = (str) => {
     display.appendChild(content);
 };
 
+let removeText = () => {
+    const section = document.querySelector('#display');
+
+    if (section.childNodes.length > 0) {
+        const text = document.querySelectorAll('p');
+        text.forEach((p) => {
+            section.removeChild(p);
+        });
+    }
+};
+
 /*HANDLE PLAYER SELECTION*/
 const btn = document.querySelectorAll('button');
 
@@ -34,7 +45,7 @@ let computerSelection = () => {
 };
 
 let playRound = (playerSelection, computerSelection) => {
-
+    removeText();
     createText(`You chose ${playerSelection} and the computer chose ${computerSelection}.`);
     
     if (playerSelection === computerSelection) {
@@ -55,7 +66,7 @@ let playRound = (playerSelection, computerSelection) => {
         default: 
             createText("Please enter 'rock', 'paper', or 'scissors'");
             return playRound(playerSelection(), computerSelection());
-    }
+    }    
 };
 
 // let game = () => {
