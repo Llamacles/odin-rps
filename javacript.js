@@ -1,5 +1,3 @@
-const TOTAL_ROUNDS = 5;
-
 let createText = (str) => {
     const display = document.querySelector('#display');
 
@@ -21,14 +19,35 @@ let removeText = () => {
     }
 };
 
-let removeButtons = () => {
-    const section = document.querySelector('#game-buttons');
+let hideButtons = () => {
     const btn = document.querySelectorAll('button');
 
     btn.forEach((button) => {
-        section.removeChild(button);
+        button.setAttribute("hidden", true);
+    });
+    addResetButton();
+};
+
+let addResetButton = () => {
+    const section = document.querySelector('#game-buttons');
+
+    const btn = document.createElement('button');
+    btn.textContent = "Play again?";
+    section.insertBefore(btn, section.firstChild);
+
+    btn.addEventListener('click', () => {
+        const num = document.querySelector('.game-number');
+        num.textContent = `0`;
+
+        const buttons = document.querySelectorAll('button');
+        buttons.forEach((button) => {
+            button.removeAttribute("hidden"); 
+        });
+
+        section.removeChild(btn);
     });
 };
+
 
 let countGames = () => {
     const num = document.querySelector('.game-number');
@@ -84,26 +103,6 @@ let playRound = (playerSelection, computerSelection) => {
     let gameNum = countGames();
     if (gameNum === 5) {
         createText("The game is over!");
-        removeButtons();
+        hideButtons();
     }
 };
-
-// let game = () => {
-//     let computerWins = 0;
-//     let playerWins = 0;
-
-//     for (let i = 0; i < TOTAL_ROUNDS; i++) {
-//         switch (playRound(playerSelection(), computerSelection())) {
-//             case -1:
-//                 computerWins++;
-//                 break;
-//             case 1:
-//                 playerWins++;
-//                 break;
-//         }
-//     }
-//     createText("Computer's wins: " + computerWins);
-//     createText("Your wins: " + playerWins);
-
-//     return (computerWins === playerWins) ? "It's a tie!" : (computerWins > playerWins) ? "You Lose!" : "You Win!"
-// };
