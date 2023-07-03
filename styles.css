@@ -26,6 +26,14 @@ body {
     gap: 2em;
 }
 
+.display-results, .versus-text {
+    font-size: 20px;
+}
+
+.versus-text {
+    font-weight: bold;
+}
+
 #game-buttons {
     display: flex;
     gap: 82px;
@@ -45,6 +53,11 @@ body {
     animation-name: button-animation;
     animation-iteration-count: infinite;
     animation-duration: 1.5s;
+}
+
+#win-section {
+    display: flex;
+    gap: 10em;
 }
 
 @keyframes button-animation{

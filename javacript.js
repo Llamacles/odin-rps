@@ -8,17 +8,6 @@ let createText = (str, section, cssClass) => {
     container.appendChild(content);
 };
 
-// let removeText = (section, cssClass) => {
-//     const container = document.querySelector(section);
-
-//     if (container.childNodes.length > 0) {
-//         const text = document.querySelectorAll(cssClass);
-//         text.forEach((p) => {
-//             p.remove();
-//         });
-//     }
-// };
-
 let hideButtons = () => {
     const btn = document.querySelectorAll('button');
 
