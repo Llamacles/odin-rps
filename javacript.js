@@ -1,23 +1,23 @@
-let createText = (str) => {
-    const display = document.querySelector('#display');
+let createText = (str, section, cssClass) => {
+    const container = document.querySelector(section);
 
     const content = document.createElement('p');
-    content.classList.add('display-result');
+    content.classList.add(cssClass);
     content.textContent = str;
 
-    display.appendChild(content);
+    container.appendChild(content);
 };
 
-let removeText = () => {
-    const section = document.querySelector('#display');
+// let removeText = (section, cssClass) => {
+//     const container = document.querySelector(section);
 
-    if (section.childNodes.length > 0) {
-        const text = document.querySelectorAll('.display-result');
-        text.forEach((p) => {
-            p.remove();
-        });
-    }
-};
+//     if (container.childNodes.length > 0) {
+//         const text = document.querySelectorAll(cssClass);
+//         text.forEach((p) => {
+//             p.remove();
+//         });
+//     }
+// };
 
 let hideButtons = () => {
     const btn = document.querySelectorAll('button');
@@ -47,7 +47,7 @@ let addResetButton = () => {
         buttons.forEach((button) => {
             button.removeAttribute("hidden"); 
         });
-        removeText()
+        resetLayout();
         section.removeChild(btn);
     });
 };
@@ -59,6 +59,13 @@ let countGames = () => {
     let count = Number(num.textContent) + 1;
     num.textContent = `${count.toString()}`;
     return count;
+};
+
+let resetLayout = () => {
+        const text = document.querySelectorAll('p');
+        text.forEach((p) => {
+            p.remove();
+        });
 };
 
 /*HANDLE PLAYER SELECTION*/
@@ -89,37 +96,39 @@ let playRound = (playerSelection, computerSelection) => {
     const playerWins = document.querySelector('#player-wins');
     const computerWins = document.querySelector('#computer-wins');
 
-    removeText();
-    createText(`You chose ${playerSelection} and the computer chose ${computerSelection}.`);
+    resetLayout();
+    createText(`You chose: ${playerSelection}`, '#player-display', 'display-results');
+    createText(`VS`, '#versus', 'versus-text');
+    createText(`Computer chose: ${computerSelection}`, '#computer-display', 'display-results');
     
     if (playerSelection === computerSelection)
-        createText(`It's a tie! You both chose ${playerSelection}`);
+        createText(`It's a tie! You both chose ${playerSelection}`, '#results', 'display-results');
     else {
         switch (playerSelection) {
             case "rock":
                 if (computerSelection === "paper") {
-                    createText("You lose! Paper beats rock");
+                    createText("You lose! Paper beats rock", '#results', 'display-results');
                     computerWins.textContent = `${Number(computerWins.textContent) + 1}`;
                 } else { 
-                    createText("You win! Rock beats scissors");
+                    createText("You win! Rock beats scissors", '#results', 'display-results');
                     playerWins.textContent = `${Number(playerWins.textContent) + 1}`;
                 }
                 break;
             case "paper":
                 if (computerSelection === "scissors") {
-                    createText("You lose! Scissors beats paper");
+                    createText("You lose! Scissors beats paper", '#results', 'display-results');
                     computerWins.textContent = `${Number(computerWins.textContent) + 1}`; 
                 } else {
-                    createText("You win! Paper beats rock");
+                    createText("You win! Paper beats rock", '#results', 'display-results');
                     playerWins.textContent = `${Number(playerWins.textContent) + 1}`;
                 }
                 break;
             case "scissors":
                 if (computerSelection === "rock") {
-                    createText("You lose! Rock beats scissors")
+                    createText("You lose! Rock beats scissors", '#results', 'display-results')
                     computerWins.textContent = `${Number(computerWins.textContent) + 1}`;
                 } else {
-                    createText("You win! Scissors beats paper");
+                    createText("You win! Scissors beats paper", '#results', 'display-results');
                     playerWins.textContent = `${Number(playerWins.textContent) + 1}`;
                 }
                 break;
@@ -128,15 +137,16 @@ let playRound = (playerSelection, computerSelection) => {
     let gameNum = countGames();
     if (gameNum === 5) {
         hideButtons();
+        resetLayout();
         if (Number(playerWins.textContent) === Number(computerWins.textContent)) {
-            createText("It's a tie!");
+            createText("It's a tie!", '#results', 'final-results');
             return 0;
         }
 
         if (Number(playerWins.textContent) > Number(computerWins.textContent)){ 
-            createText("You win!");
+            createText("You win!", '#results', 'final-results');
         } else {
-            createText("You lose!");
+            createText("You lose!", '#results', 'final-results');
         }
     }
 };

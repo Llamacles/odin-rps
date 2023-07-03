@@ -1,3 +1,7 @@
+*, ::after, ::before {
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+}
+
 :root {
     --color1: #6720a2;
     --color2: #9e66cc;
@@ -11,22 +15,28 @@ body {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    text-align: center;
     height: 100vh;
     margin: 0;
     gap: 3em;
 }
 
+#display {
+    display: flex;
+    gap: 2em;
+}
+
 #game-buttons {
     display: flex;
-    gap: 32px;
+    gap: 82px;
 }
 
 #game-buttons > button {
     background-color: var(--color1);
-    border: none;
+    border: solid 2px var(--color4) ;
     color: white;
     padding: 15px 32px;
-    font-size: 20px;
+    font-size: 60px;
     cursor: pointer;
     border-radius: 8px;
 }
