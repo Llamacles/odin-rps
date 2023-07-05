@@ -128,13 +128,16 @@ let playRound = (playerSelection, computerSelection) => {
         hideButtons();
         resetLayout();
         if (Number(playerWins.textContent) === Number(computerWins.textContent)) {
+            createText("You have the same amount of wins!", '#results', 'final-results');
             createText("It's a tie!", '#results', 'final-results');
             return 0;
         }
 
         if (Number(playerWins.textContent) > Number(computerWins.textContent)){ 
+            createText("You have more wins than the computer!", '#results', 'final-results');
             createText("You win!", '#results', 'final-results');
         } else {
+            createText("The computer has more wins!", '#results', 'final-results');
             createText("You lose!", '#results', 'final-results');
         }
     }

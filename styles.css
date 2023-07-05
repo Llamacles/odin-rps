@@ -55,6 +55,11 @@ body {
     animation-duration: 1.5s;
 }
 
+.final-results {
+    font-size: 30px;
+    font-style: italic;
+}
+
 #win-section {
     display: flex;
     gap: 10em;
