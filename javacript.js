@@ -1,3 +1,6 @@
+const MAX_ROUNDS = 5;
+let roundNumber = 0;
+
 let createText = (str, section, cssClass) => {
     const container = document.querySelector(section);
 
@@ -14,7 +17,6 @@ let hideButtons = () => {
     btn.forEach((button) => {
         button.setAttribute("hidden", true);
     });
-    addResetButton();
 };
 
 let addResetButton = () => {
@@ -42,12 +44,11 @@ let addResetButton = () => {
 };
 
 
-let countGames = () => {
+let incrementRound = () => {
     const num = document.querySelector('#game-number');
 
-    let count = Number(num.textContent) + 1;
-    num.textContent = `${count.toString()}`;
-    return count;
+    roundNumber++;
+    num.textContent = `${roundNumber.toString()}`;
 };
 
 let resetLayout = () => {
@@ -63,6 +64,13 @@ const btn = document.querySelectorAll('button');
 btn.forEach((button) => {
     button.addEventListener('click', () => {
         playRound(button.id, computerSelection());
+        if (roundNumber === MAX_ROUNDS) {
+            hideButtons();
+            addResetButton();
+            resetLayout();
+            displayWinner();
+            roundNumber = 0;
+        }
     });
 });
 
@@ -80,65 +88,69 @@ let computerSelection = () => {
     }
 };
 
-/*MAIN RPS FUNCTION*/
+/*MAIN RPS FUNCTIONS*/
 let playRound = (playerSelection, computerSelection) => {
-    const playerWins = document.querySelector('#player-wins');
-    const computerWins = document.querySelector('#computer-wins');
 
     resetLayout();
     createText(`You chose: ${playerSelection}`, '#player-display', 'display-results');
     createText(`VS`, '#versus', 'versus-text');
     createText(`Computer chose: ${computerSelection}`, '#computer-display', 'display-results');
     
-    if (playerSelection === computerSelection)
-        createText(`It's a tie! You both chose ${playerSelection}`, '#results', 'display-results');
-    else {
-        switch (playerSelection) {
-            case "rock":
-                if (computerSelection === "paper") {
-                    createText("You lose! Paper beats rock", '#results', 'display-results');
-                    computerWins.textContent = `${Number(computerWins.textContent) + 1}`;
-                } else { 
-                    createText("You win! Rock beats scissors", '#results', 'display-results');
-                    playerWins.textContent = `${Number(playerWins.textContent) + 1}`;
-                }
-                break;
-            case "paper":
-                if (computerSelection === "scissors") {
-                    createText("You lose! Scissors beats paper", '#results', 'display-results');
-                    computerWins.textContent = `${Number(computerWins.textContent) + 1}`; 
-                } else {
-                    createText("You win! Paper beats rock", '#results', 'display-results');
-                    playerWins.textContent = `${Number(playerWins.textContent) + 1}`;
-                }
-                break;
-            case "scissors":
-                if (computerSelection === "rock") {
-                    createText("You lose! Rock beats scissors", '#results', 'display-results')
-                    computerWins.textContent = `${Number(computerWins.textContent) + 1}`;
-                } else {
-                    createText("You win! Scissors beats paper", '#results', 'display-results');
-                    playerWins.textContent = `${Number(playerWins.textContent) + 1}`;
-                }
-                break;
-        }
-    }
-    let gameNum = countGames();
-    if (gameNum === 5) {
-        hideButtons();
-        resetLayout();
-        if (Number(playerWins.textContent) === Number(computerWins.textContent)) {
-            createText("You have the same amount of wins!", '#results', 'final-results');
-            createText("It's a tie!", '#results', 'final-results');
-            return 0;
-        }
+    selectWinner(playerSelection, computerSelection);
 
-        if (Number(playerWins.textContent) > Number(computerWins.textContent)){ 
-            createText("You have more wins than the computer!", '#results', 'final-results');
-            createText("You win!", '#results', 'final-results');
-        } else {
-            createText("The computer has more wins!", '#results', 'final-results');
-            createText("You lose!", '#results', 'final-results');
-        }
-    }
+    incrementRound();
 };
+
+let selectWinner = (playerSelection, computerSelection) => {
+    const playerWins = document.querySelector('#player-wins');
+    const computerWins = document.querySelector('#computer-wins');
+
+    if (playerSelection === computerSelection)
+        return createText(`It's a tie! You both chose ${playerSelection}`, '#results', 'display-results');
+
+    switch (playerSelection + "-" + computerSelection) {
+        case ("rock-paper"):
+            createText("You lose! Paper beats rock", '#results', 'display-results');
+            computerWins.textContent = `${Number(computerWins.textContent) + 1}`;
+            break;
+        case ("rock-scissors"):
+            createText("You win! Rock beats scissors", '#results', 'display-results');
+            playerWins.textContent = `${Number(playerWins.textContent) + 1}`;
+            break;
+        case ("paper-scissors"):
+            createText("You lose! Scissors beats paper", '#results', 'display-results');
+            computerWins.textContent = `${Number(computerWins.textContent) + 1}`; 
+            break;
+        case ("paper-rock"):
+            createText("You win! Paper beats rock", '#results', 'display-results');
+            playerWins.textContent = `${Number(playerWins.textContent) + 1}`;
+            break;
+        case ("scissors-rock"):
+            createText("You lose! Rock beats scissors", '#results', 'display-results')
+            computerWins.textContent = `${Number(computerWins.textContent) + 1}`;
+            break;
+        case ("scissors-paper"):
+            createText("You win! Scissors beats paper", '#results', 'display-results');
+            playerWins.textContent = `${Number(playerWins.textContent) + 1}`;
+            break;
+    }
+}
+
+let displayWinner = () => {
+    let playerWins = document.querySelector('#player-wins');
+    let computerWins = document.querySelector('#computer-wins')
+
+    if (Number(playerWins.textContent) === Number(computerWins.textContent)) {
+        createText("You have the same amount of wins!", '#results', 'final-results');
+        createText("It's a tie!", '#results', 'final-results');
+        return 0;
+    }
+
+    if (Number(playerWins.textContent) > Number(computerWins.textContent)){ 
+        createText("You have more wins than the computer!", '#results', 'final-results');
+        createText("You win!", '#results', 'final-results');
+    } else {
+        createText("The computer has more wins!", '#results', 'final-results');
+        createText("You lose!", '#results', 'final-results');
+    }
+}
